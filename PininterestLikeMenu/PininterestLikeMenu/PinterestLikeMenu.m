@@ -60,7 +60,6 @@ static CGFloat distanceBetweenXAndY(CGPoint pointX, CGPoint pointY)
         }
         
         [self addSubview:self.startImageView];
-        
     }
     return self;
 }
@@ -118,7 +117,7 @@ static CGFloat distanceBetweenXAndY(CGPoint pointX, CGPoint pointY)
             CGFloat currentDistance = distanceBetweenXAndY(touchedPoint, floatingPoint);
             currentDistance = currentDistance > kMaxLength ? kMaxLength : currentDistance;
             float step = (currentDistance / kMaxLength) * (kMaxLength - kLength);
-            
+
             [UIView animateWithDuration:0.1 animations:^{
                 [self moveWithIndex:i offsetOfFloatingPoint:step];
             }];
@@ -199,12 +198,15 @@ static CGFloat distanceBetweenXAndY(CGPoint pointX, CGPoint pointY)
     NSUInteger count = self.submenus.count;
     
     // from 3/2 -> 2/2  0 -> 320 (20 -> 300)
-    
-    float startRadian = M_PI_2 * 3 - ((self.startPoint.x - 20) / (320 - 20 * 2)) * M_PI_2;
-    float step = kMaxAngle / (count - 1);
-    float radian = startRadian + index * step;
-
-    return radian;
+    if ( self.startPoint.y < kMaxLength + 50.0) {
+        float startRadian = M_PI_2 + ((self.startPoint.x - 20) / (320 - 20 * 2)) * M_PI_2;
+        float step = kMaxAngle / (count - 1);
+        return startRadian - index * step;
+    } else {
+        float startRadian = M_PI_2 * 3 - ((self.startPoint.x - 20) / (320 - 20 * 2)) * M_PI_2;
+        float step = kMaxAngle / (count - 1);
+        return startRadian + index * step;
+    }
 }
 
 - (void)appear

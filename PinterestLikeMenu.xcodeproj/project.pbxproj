@@ -439,7 +439,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "PininterestLikeMenuTests/PinterestLikeMenuTests-Info.plist";
+				INFOPLIST_FILE = "PininterestLikeMenu/PinterestLikeMenu-Info.plist";
 				PRODUCT_NAME = PinterestLikeMenuTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -458,7 +458,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PininterestLikeMenu/PininterestLikeMenu-Prefix.pch";
-				INFOPLIST_FILE = "PininterestLikeMenuTests/PinterestLikeMenuTests-Info.plist";
+				INFOPLIST_FILE = "PininterestLikeMenu/PinterestLikeMenu-Info.plist";
 				PRODUCT_NAME = PinterestLikeMenuTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
