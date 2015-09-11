@@ -8,8 +8,8 @@
 
 #import "PinterestLikeMenu.h"
 
-#define kMaxAngle        M_PI_2
 #define kMaxLength       (95)
+#define kMaxRange        kMaxLength + 50
 #define kLength          (75)
 #define kBounceLength    (18)
 #define kPulseLength     (60)
@@ -30,7 +30,10 @@ static CGFloat distanceBetweenXAndY(CGPoint pointX, CGPoint pointY)
 
 @end
 
-@implementation PinterestLikeMenu
+@implementation PinterestLikeMenu {
+    CGFloat kMaxAngle;
+    CGFloat kStepAngle;
+}
 
 - (id)initWithSubmenus:(NSArray *)submenus
 {
@@ -66,8 +69,22 @@ static CGFloat distanceBetweenXAndY(CGPoint pointX, CGPoint pointY)
 
 - (void)setStartPoint:(CGPoint)point
 {
+    if (self.submenus.count < 4) {
+        kMaxAngle = M_PI_2;
+        kStepAngle = M_PI_4;
+    } else {
+        if ((point.x < kMaxLength || point.x > self.frame.size.width - kMaxLength) &&
+            (point.y < kMaxLength || point.y > self.frame.size.height - kMaxLength)) {
+            kMaxAngle = M_PI_2;
+            kStepAngle = M_PI_4 * 0.8;
+        } else {
+            kMaxAngle = M_PI;
+            kStepAngle = M_PI_4;
+        }
+    }
+
     point.x = point.x < kMenuItemLength / 2 ? kMenuItemLength / 2 : point.x;
-    point.x = point.x > (320 - kMenuItemLength / 2) ? (320 - kMenuItemLength / 2) : point.x;
+    point.x = point.x > (self.frame.size.width - kMenuItemLength / 2) ? (self.frame.size.width - kMenuItemLength / 2) : point.x;
     
     _startPoint = point;
     
@@ -196,16 +213,14 @@ static CGFloat distanceBetweenXAndY(CGPoint pointX, CGPoint pointY)
 - (float)radianWithIndex:(int)index
 {
     NSUInteger count = self.submenus.count;
-    
-    // from 3/2 -> 2/2  0 -> 320 (20 -> 300)
-    if ( self.startPoint.y < kMaxLength + 50.0) {
-        float startRadian = M_PI_2 + ((self.startPoint.x - 20) / (320 - 20 * 2)) * M_PI_2;
-        float step = kMaxAngle / (count - 1);
-        return startRadian - index * step;
+
+    float start = (kMaxAngle - (count - 1) * kStepAngle) / 2.0;
+    if ( self.startPoint.y < kMaxRange) {
+        float startRadian = M_PI_2 + ((self.startPoint.x - 20) / (self.frame.size.width - 20 * 2)) * kMaxAngle;
+        return startRadian - start - index * kStepAngle;
     } else {
-        float startRadian = M_PI_2 * 3 - ((self.startPoint.x - 20) / (320 - 20 * 2)) * M_PI_2;
-        float step = kMaxAngle / (count - 1);
-        return startRadian + index * step;
+        float startRadian = M_PI_2 * 3 - ((self.startPoint.x - 20) / (self.frame.size.width - 20 * 2)) * kMaxAngle;
+        return startRadian + start + index * kStepAngle;
     }
 }
 

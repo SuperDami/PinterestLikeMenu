@@ -47,7 +47,14 @@
                                                                           selectedBlock:^(void) {
                                                                               NSLog(@"item 2 selcted");
                                                                           }];
-        NSArray *submenus = @[item0, item1, item2];
+        
+        PinterestLikeMenuItem *item3 = [[PinterestLikeMenuItem alloc] initWithImage:[UIImage imageNamed:@"center"]
+                                                                       selctedImage:[UIImage imageNamed:@"center-highlighted"]
+                                                                      selectedBlock:^(void) {
+                                                                          NSLog(@"item 3 selcted");
+                                                                      }];
+
+        NSArray *submenus = @[item0, item1, item2, item3];
         
         self.menu = [[PinterestLikeMenu alloc] initWithSubmenus:submenus];
 
